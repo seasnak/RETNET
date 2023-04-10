@@ -10,7 +10,7 @@ public partial class Player : CharacterBody2D
 	private int curr_stamina;
 
 	private int movespeed = 10; // the player's max movespeed
-	private float acceleration = 0.2f; // the player's acceleration from resting
+	private float acceleration = 0.2f; // TODO: add in some form of acceleration
 	private int jumpspeed = 15; // the players jumping speed
 	
 	
@@ -32,11 +32,13 @@ public partial class Player : CharacterBody2D
 
 		is_grounded = this.IsOnFloor();
 		
-		if(Input.IsActionJustPressed("ui_left")) {
-			Velocity = new Vector2(Math.Min(Velocity.X + acceleration, movespeed), Velocity.Y);
+		float hor_input = Input.GetAxis("ui_left", "ui_right");
+		Velocity = new Vector2(movespeed * hor_input, Velocity.Y);
+		if(hor_input > 0) { // Player is moving right
+			this.Scale = new Vector2(1, 1);
 		}
-		if(Input.IsActionJustPressed("ui_right")) {
-			Velocity = new Vector2(Math.Max(Velocity.X-acceleration, movespeed), Velocity.Y);
+		else if(hor_input < 0) { // Player is moving left
+			this.Scale = new Vector2(-1, 1);
 		}
 		
 		MoveAndSlide();
