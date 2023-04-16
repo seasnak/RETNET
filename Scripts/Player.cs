@@ -17,6 +17,8 @@ public partial class Player : CharacterBody2D
 	private bool is_grounded = true; // groundcheck
 	private bool is_jumping = false;  // jump check
 	
+	private float gravity = 9f;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -33,6 +35,7 @@ public partial class Player : CharacterBody2D
 		is_grounded = this.IsOnFloor();
 		
 		float hor_input = Input.GetAxis("ui_left", "ui_right");
+		GD.Print(hor_input);
 		Velocity = new Vector2(movespeed * hor_input, Velocity.Y);
 		if(hor_input > 0) { // Player is moving right
 			this.Scale = new Vector2(1, 1);

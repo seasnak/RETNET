@@ -83,3 +83,4 @@ sprite_frames = SubResource("SpriteFrames_5obdj")
 animation = &"run"
 
 [node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(4, 4)
