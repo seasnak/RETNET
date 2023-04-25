@@ -28,7 +28,7 @@ public partial class LevelLoader : Node2D
                 // Generate Level Here based on text file contents
                 string[] blocks = s.Split(' ');
                 for(int i = 0; i < blocks.Length; i++) {
-                    GD.Print(blocks[i][0]); // print out the
+                    GD.Print(blocks[i][0]); // print out the block at the location
                 }
                 
                 GD.Print(s);
