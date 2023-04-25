@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bkugse8ep3run"]
+[gd_scene load_steps=5 format=3 uid="uid://c4w4ewemfnhqf"]
 
 [ext_resource type="PackedScene" uid="uid://dmmsf2ode0d05" path="res://Objects/Player.tscn" id="1_xpku2"]
 [ext_resource type="Texture2D" uid="uid://bu8oyhxp27i0c" path="res://Sprites/Tilesprites/grass.png" id="2_71yvn"]
