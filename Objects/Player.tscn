@@ -1,10 +1,14 @@
-[gd_scene load_steps=13 format=3 uid="uid://dmmsf2ode0d05"]
+[gd_scene load_steps=14 format=3 uid="uid://dmmsf2ode0d05"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_gdlkd"]
 [ext_resource type="Texture2D" uid="uid://cf1paaqsel74l" path="res://Sprites/Player/player_walking.png" id="1_q62ip"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0lim7"]
-size = Vector2(6, 8)
+size = Vector2(6, 7)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6tx4k"]
+atlas = ExtResource("1_q62ip")
+region = Rect2(0, 0, 12, 12)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qgwv6"]
 atlas = ExtResource("1_q62ip")
@@ -42,6 +46,14 @@ region = Rect2(84, 0, 12, 12)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_6tx4k")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_qgwv6")
 }, {
 "duration": 1.0,
@@ -66,7 +78,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_aifd2")
 }],
 "loop": true,
-"name": &"run",
+"name": &"Walk",
 "speed": 5.0
 }]
 
@@ -74,10 +86,12 @@ animations = [{
 script = ExtResource("1_gdlkd")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-1, 2)
+position = Vector2(-1, 2.5)
 shape = SubResource("RectangleShape2D_0lim7")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_5obdj")
-animation = &"run"
+animation = &"Walk"
+frame_progress = 0.743136
+speed_scale = 2.0
