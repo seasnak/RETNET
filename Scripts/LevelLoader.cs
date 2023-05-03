@@ -22,17 +22,18 @@ public partial class LevelLoader : Node2D
             GD.PrintErr("Level Error: Level File Not Found");
         }
 
-        using(StreamReader sr = File.OpenText(level_fname)) {
-            string s;
-            while((s = sr.ReadLine())!= null) {
-                // Generate Level Here based on text file contents
-                string[] blocks = s.Split(' ');
-                for(int i = 0; i < blocks.Length; i++) {
-                    GD.Print(blocks[i][0]); // print out the block at the location
-                }
-                
-                GD.Print(s);
-            }
-        }
-    }
+		using StreamReader sr = File.OpenText(level_fname);
+		string s;
+		while ((s = sr.ReadLine()) != null)
+		{
+			// Generate Level Here based on text file contents
+			string[] blocks = s.Split(' ');
+			for (int i = 0; i < blocks.Length; i++)
+			{
+				GD.Print(blocks[i][0]); // print out the block at the location
+			}
+
+			GD.Print(s);
+		}
+	}
 }
