@@ -1,5 +1,6 @@
-using Godot;
-using System;
+// Maybe move these global usings to Globals.cs or RetNet.cs or GameMaster.cs later
+global using Godot;
+global using System;
 
 public partial class Player : CharacterBody2D
 {
