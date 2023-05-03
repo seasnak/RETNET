@@ -1,5 +1,6 @@
-// TODO: In future, maybe make a more dynamic camera but this is more stylistic
+namespace RetNet;
 
+// TODO: In future, maybe make a more dynamic camera but this is more stylistic
 public partial class CameraController : Camera2D
 {
 	

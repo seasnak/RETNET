@@ -2,6 +2,8 @@
 global using Godot;
 global using System;
 
+namespace RetNet;
+
 public partial class Player : CharacterBody2D
 {
 	

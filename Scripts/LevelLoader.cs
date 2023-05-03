@@ -1,3 +1,5 @@
+namespace RetNet;
+
 using System.IO;
 
 public partial class LevelLoader : Node2D

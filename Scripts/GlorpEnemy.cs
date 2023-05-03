@@ -1,3 +1,5 @@
+namespace RetNet;
+
 public partial class GlorpEnemy : Enemy 
 {
 
