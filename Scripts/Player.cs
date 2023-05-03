@@ -1,5 +1,8 @@
-using Godot;
-using System;
+// Maybe move these global usings to Globals.cs or RetNet.cs or GameMaster.cs later
+global using Godot;
+global using System;
+
+namespace RetNet;
 
 public partial class Player : CharacterBody2D
 {
@@ -29,7 +32,7 @@ public partial class Player : CharacterBody2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		sprite = (AnimatedSprite2D)(GetNode("AnimatedSprite2D"));
+		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		
 	}
 
@@ -43,20 +46,20 @@ public partial class Player : CharacterBody2D
 			Velocity = new Vector2( Velocity.X, Math.Min(Velocity.Y, max_fallspeed) );
 		}
 
-		if(curr_health <= 0) { die(); } // check death
+		if(curr_health <= 0) { Die(); } // check death
 		
 		// MOVEMENT
-		handle_move();
+		HandleMove();
 
 		// JUMP MOVEMENT
-		handle_jump();
+		HandleJump();
 	}
 
-	private void die() {
+	private void Die() {
 		GD.Print("Player Died!");
 	}
 
-	private void handle_move() {
+	private void HandleMove() {
 		float hor_input = Input.GetAxis("ui_left", "ui_right");
 		Velocity = new Vector2(movespeed * hor_input, Velocity.Y);
 
@@ -75,7 +78,7 @@ public partial class Player : CharacterBody2D
 		}
 	}
 
-	private void handle_jump() {
+	private void HandleJump() {
 		is_grounded = this.IsOnFloor();
 		// GD.Print(Velocity);
 		if (is_grounded) {

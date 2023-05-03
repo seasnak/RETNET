@@ -1,12 +1,11 @@
-using Godot;
-using System;
+namespace RetNet;
 
 public partial class Coin : RigidBody2D
 {
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		AnimatedSprite2D sprite = (AnimatedSprite2D)(GetNode("AnimatedSprite2D"));
+		var sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		try
 		{
 			sprite.Play("Default");

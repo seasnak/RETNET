@@ -1,5 +1,4 @@
-using Godot;
-using System;
+namespace RetNet;
 
 public partial class GlorpEnemy : Enemy 
 {
