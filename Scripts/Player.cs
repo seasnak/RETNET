@@ -46,20 +46,20 @@ public partial class Player : CharacterBody2D
 			Velocity = new Vector2( Velocity.X, Math.Min(Velocity.Y, max_fallspeed) );
 		}
 
-		if(curr_health <= 0) { die(); } // check death
+		if(curr_health <= 0) { Die(); } // check death
 		
 		// MOVEMENT
-		handle_move();
+		HandleMove();
 
 		// JUMP MOVEMENT
-		handle_jump();
+		HandleJump();
 	}
 
-	private void die() {
+	private void Die() {
 		GD.Print("Player Died!");
 	}
 
-	private void handle_move() {
+	private void HandleMove() {
 		float hor_input = Input.GetAxis("ui_left", "ui_right");
 		Velocity = new Vector2(movespeed * hor_input, Velocity.Y);
 
@@ -78,7 +78,7 @@ public partial class Player : CharacterBody2D
 		}
 	}
 
-	private void handle_jump() {
+	private void HandleJump() {
 		is_grounded = this.IsOnFloor();
 		// GD.Print(Velocity);
 		if (is_grounded) {
