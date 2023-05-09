@@ -94,4 +94,3 @@ shape = SubResource("RectangleShape2D_0lim7")
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_5obdj")
 animation = &"idle"
-
