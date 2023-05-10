@@ -17,6 +17,13 @@ public partial class LevelLoader : Node2D
         
     }
 
+    public void LoadLevelFromGodot(string level_fname) {
+        // Load in a level
+        PackedScene levelScene = ResourceLoader.Load<PackedScene>(level_fname);
+        Node levelNode = levelScene.Instantiate();
+        GetTree().Root.AddChild(levelNode);
+    }
+
     public void LoadLevelFromText(string level_fname) {
         if(!File.Exists(level_fname)) {
             GD.PrintErr("Level Error: Level File Not Found");

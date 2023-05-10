@@ -23,6 +23,8 @@ public partial class Player : CharacterBody2D
 	private int gravity = 200;
 	private int max_fallspeed = 200;
 
+	private string next_level;
+	
 
 	private AnimatedSprite2D sprite;
 

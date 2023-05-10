@@ -3,7 +3,7 @@ B BLOCK
 S SPIKE
 E ENEMY
 C COIN
-P PLAYER
+P SPAWN_POINT ( where the player spawns ) -- only found in the starting room
 [0-9] ENTRANCE/EXIT
 
 SAMPLE LEVEL
@@ -20,5 +20,5 @@ B B B B - - B B B B
 B B B B 2 2 B B B B
 
 0 level_3.txt
-1 level_0.txt
-2 level_5.txt
+1 level_1.txt
+2 level_2.txt
