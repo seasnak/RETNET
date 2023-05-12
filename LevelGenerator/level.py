@@ -7,7 +7,8 @@ class Block(Enum):
     EMPTY = 0,
     BLOCK = 1,
     SPIKE = 2,
-
+    PLAYER = 10,
+    ENEMY = 11,
     pass
 
 class Level():

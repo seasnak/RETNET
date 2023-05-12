@@ -49,9 +49,10 @@ public partial class Player : CharacterBody2D
 		
 		// MOVEMENT
 		handle_move();
-
 		// JUMP MOVEMENT
 		handle_jump();
+
+		MoveAndSlide();
 	}
 
 	private void die() {
@@ -65,15 +66,15 @@ public partial class Player : CharacterBody2D
 		if(hor_input > 0) { // Player is moving right
 			// Flip the Character
 			sprite.FlipH = false;
-			sprite.Play("Walk");
+			sprite.Play("walk");
 		}
 		else if(hor_input < 0) { // Player is moving left
 			// Flip the Character 
 			sprite.FlipH = true;
-			sprite.Play("Walk");
+			sprite.Play("walk");
 		}
 		else {
-			sprite.Play("Idle");
+			sprite.Play("idle");
 		}
 	}
 
@@ -100,8 +101,6 @@ public partial class Player : CharacterBody2D
 				has_fastfell = true;
 			}
 		}
-		
-		MoveAndSlide();
 	}
 		
 }
