@@ -102,5 +102,9 @@ public partial class Player : CharacterBody2D
 			}
 		}
 	}
+
+	public void set_position(Vector2 position) {
+		this.Position = position;
+	}
 		
 }

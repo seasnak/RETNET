@@ -1,29 +1,21 @@
-[gd_scene load_steps=6 format=3 uid="uid://c4w4ewemfnhqf"]
+[gd_scene load_steps=4 format=3 uid="uid://ooq1yxgchucm"]
 
 [ext_resource type="PackedScene" uid="uid://dmmsf2ode0d05" path="res://Objects/Player.tscn" id="1_xpku2"]
-[ext_resource type="TileSet" uid="uid://cibqsmotpjli2" path="res://grass.tres" id="2_k5rmu"]
-[ext_resource type="PackedScene" uid="uid://ces2vdj2wl11h" path="res://Objects/Coin.tscn" id="3_lhltx"]
-[ext_resource type="Script" path="res://Scripts/Coin.cs" id="4_6fxnk"]
+[ext_resource type="TileSet" uid="uid://cibqsmotpjli2" path="res://Tilesets/grass.tres" id="2_b2h8s"]
 [ext_resource type="Script" path="res://Scripts/BlockPlacer.cs" id="5_o8g3w"]
 
 [node name="World" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource("1_xpku2")]
-position = Vector2(-24, -6)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
-position = Vector2(26, 6)
+position = Vector2(2, 6)
 zoom = Vector2(4.5, 4.5)
 
 [node name="Tilemap" type="TileMap" parent="."]
 texture_filter = 1
-tile_set = ExtResource("2_k5rmu")
+tile_set = ExtResource("2_b2h8s")
 format = 2
-layer_0/tile_data = PackedInt32Array(65532, 196608, 5, 65533, 327680, 5)
-
-[node name="Coin" parent="." instance=ExtResource("3_lhltx")]
-position = Vector2(63, 11)
-script = ExtResource("4_6fxnk")
 
 [node name="BlockPlacer" type="Node2D" parent="."]
 script = ExtResource("5_o8g3w")
