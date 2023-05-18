@@ -1,15 +1,18 @@
 using Godot;
 using System;
 
-public partial class Coin : RigidBody2D
+public partial class Coin : Area2D
 {
+
+	private int value = 1; // the value of this coin
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		// AnimatedSprite2D sprite = (AnimatedSprite2D)(GetNode("AnimatedSprite2D"));
 		// try
 		// {
-		// 	sprite.Play("Default");
+		// 	sprite.Play("default");
 		// }
 		// catch (System.Exception)
 		// {
@@ -22,6 +25,14 @@ public partial class Coin : RigidBody2D
 	public override void _Process(double delta)
 	{
 		
+	}
+
+	private void OnCollisionEntered(Node body) {
+		if(body is Player) {
+			Player player = body as Player;
+			player.AddCurrency(value);
+			
+		}
 	}
 
 	public void SetPosition(Vector2 position) {

@@ -1,16 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://bh0322h74w8yk"]
+[gd_scene load_steps=3 format=3 uid="uid://bh0322h74w8yk"]
 
-[ext_resource type="PackedScene" uid="uid://dmmsf2ode0d05" path="res://Objects/Player.tscn" id="1_xpku2"]
 [ext_resource type="TileSet" uid="uid://cibqsmotpjli2" path="res://grass.tres" id="2_b2h8s"]
 [ext_resource type="Script" path="res://Scripts/BlockPlacer.cs" id="5_o8g3w"]
 
 [node name="World" type="Node2D"]
-
-[node name="Player" parent="." instance=ExtResource("1_xpku2")]
-
-[node name="Camera2D" type="Camera2D" parent="Player"]
-position = Vector2(2, 6)
-zoom = Vector2(4.5, 4.5)
 
 [node name="Tilemap" type="TileMap" parent="."]
 texture_filter = 1

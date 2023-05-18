@@ -9,6 +9,7 @@ public partial class Player : CharacterBody2D
 	private int max_stamina = 20;
 	private int curr_stamina = 20;
 
+	private int money = 0;
 	
 	private int movespeed = 65; // the player's max movespeed
 	private float acceleration = 0.2f; // TODO: add in some form of acceleration
@@ -45,7 +46,7 @@ public partial class Player : CharacterBody2D
 			Velocity = new Vector2( Velocity.X, Math.Min(Velocity.Y, max_fallspeed) );
 		}
 
-		if(curr_health <= 0) { die(); } // check death
+		if(curr_health <= 0) { Die(); } // check death
 		
 		// MOVEMENT
 		HandleMove();
@@ -55,7 +56,7 @@ public partial class Player : CharacterBody2D
 		MoveAndSlide();
 	}
 
-	private void die() {
+	private void Die() {
 		GD.Print("Player Died!");
 	}
 
@@ -63,14 +64,8 @@ public partial class Player : CharacterBody2D
 		float hor_input = Input.GetAxis("ui_left", "ui_right");
 		Velocity = new Vector2(movespeed * hor_input, Velocity.Y);
 
-		if(hor_input > 0) { // Player is moving right
-			// Flip the Character
-			sprite.FlipH = false;
-			sprite.Play("walk");
-		}
-		else if(hor_input < 0) { // Player is moving left
-			// Flip the Character 
-			sprite.FlipH = true;
+		if(hor_input != 0) { // Player is moving
+			sprite.FlipH = hor_input < 0;
 			sprite.Play("walk");
 		}
 		else {
@@ -105,6 +100,10 @@ public partial class Player : CharacterBody2D
 
 	public void SetPosition(Vector2 position) {
 		this.Position = position;
+	}
+
+	public void AddCurrency(int value) {
+		this.money += value;
 	}
 		
 }
