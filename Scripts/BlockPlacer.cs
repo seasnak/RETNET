@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.IO;
+using System.Collections.Generic;
 
 /*
 * DEBUG CLASS -- for testing and seeing how we can place blocks
@@ -12,6 +13,8 @@ public partial class BlockPlacer : Node2D
 	private Player player;
 	private string tilemap_path = "/root/World/Tilemap";
 	private string player_path = "/root/World/Player";
+
+	private float block_to_level_scale = 9.2f;
 
 	public override void _Ready()
 	{
@@ -48,46 +51,67 @@ public partial class BlockPlacer : Node2D
 
 	public override void _Process(double delta)
 	{
-		
+
 	}
 
-
-	private Vector2 build_level(string target_fpath) {
+	private Vector2 build_level(string target_fpath, int player_loc = -1) {
 		// Build a level from <target_fpath>
 		GD.Print($"Opening File {target_fpath}");
+		
+		Dictionary<int, string> level_dict = new Dictionary<int, string>();
 
 		int i = 0; // row count
+		int count = 0;
 		Vector2 dims = new Vector2();
 		foreach(string line in File.ReadLines(target_fpath)) {
+			count++;
 			GD.Print($"{line.Length} {line}");
 			if(line.Length == 0) { continue; } // empty line
-			else if(line.Length == 3) { // line contains level dimensions
+			else if(count == 1) { // line contains level dimensions -- first line
 				GD.Print($"room dimensions: {line[0]}x{line[2]}");
 				dims = new Vector2(line[0], line[2]);
 				continue;
 			}
+			else if(line[0] == '?') { // line containing links to other levels
+				int level_symbol = line.Substring(1, 1).ToInt();
+				string level_name = line.Substring(3);
 
+				level_dict[level_symbol] = level_name; // save filepath to dictionary
+				continue;
+			}
+			
+			// not a config line, so loop through line and build level
 			string[] blocks = line.Split(" ");
 			int j = 0;
 			foreach(var block in blocks) {
-				GD.Print($"placing {block} block"); // DEBUG
+				GD.Print($"Placing {block} Block"); // DEBUG
 				if(block == "B") {
-					// tilemap.SetCellsTerrainConnect(0, new Godot.Collections.Array<Vector2I> {new Vector2I(i-2, j)}, 0, 0);
-					tilemap.SetCellsTerrainConnect(
-						0, 
-						new Godot.Collections.Array<Vector2I> {new Vector2I(j, i)},
-						0, 0
-					);
+					tilemap.SetCellsTerrainConnect(0, new Godot.Collections.Array<Vector2I> {new Vector2I(j, i)}, 0, 0);
 				}
 				else if(block == "P") {
-					GD.Print($"placing player at position ({j}, {i})");
-					player.set_position(new Vector2(j*6 + 6, i*6 + 2));
+					GD.Print($"Placing Player at position ({j}, {i})");
+					player.SetPosition(new Vector2(j*9.2f, i*9.2f));
 				}
-				else if(block == "")
+				else if(block == "C") {
+					GD.Print($"Placing Coin at position ({j}, {i})");
+					PackedScene coin_obj = ResourceLoader.Load<PackedScene>("res://Objects/Coin.tscn");
+					Coin coin_inst = coin_obj.Instantiate() as Coin;
+					coin_inst.SetPosition(new Vector2(j*9.2f, i*9.2f));
 
+					// this.GetParent().AddChild(coin_instance);
+					this.AddChild(coin_inst);
+				}
+				else if(block.IsValidInt()) {
+					GD.Print($"Placing Level Link at position ({j}, {i})");
+					PackedScene level_link_obj = ResourceLoader.Load<PackedScene>("res://Objects/LevelLink.tscn");
+					LevelLink level_link_inst = level_link_obj.Instantiate() as LevelLink;
+					
+					level_link_inst.SetPosition(new Vector2(j*9.2f, i*9.2f));
+					level_link_inst.SetTargetLevel(level_dict[block.ToInt()]);
+					this.AddChild(level_link_inst);
+				}
 				j++;
 			}
-			
 			i++;
 		}
 

@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://ces2vdj2wl11h"]
+[gd_scene load_steps=5 format=3 uid="uid://ces2vdj2wl11h"]
 
 [ext_resource type="Texture2D" uid="uid://vanhklwtvhmp" path="res://Sprites/Objects/coin.png" id="1_2x1jg"]
+[ext_resource type="Script" path="res://Scripts/Coin.cs" id="1_14ows"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_d7t4w"]
 animations = [{
@@ -17,6 +18,7 @@ animations = [{
 radius = 4.12311
 
 [node name="RigidBody2D" type="RigidBody2D"]
+script = ExtResource("1_14ows")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_d7t4w")

@@ -1,14 +1,15 @@
 10 10
+
+?1 level_1.txt
+?2 level_2.txt
+
 B B B B B B B B B B
 B - - - B B - - - B
-1 - - - - - - - - B
+B - - - - - - - C B
 1 - - - P - - - B B
-B - - - B B - - B B
-B B B B B - - B B B
-B - - - - - - - B B
-B - - - - - - - - 2
-B B B B - - - - - 2
+B - C - B B - - B B
+B B B B B - - - B B
+B - - - - - - B B B
+B - - - - - - - - B
+B B B B B B - - - 2
 B B B B B B B B B B
-
-1 level_1.txt
-2 level_2.txt

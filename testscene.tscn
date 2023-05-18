@@ -1,7 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://ooq1yxgchucm"]
+[gd_scene load_steps=4 format=3 uid="uid://bh0322h74w8yk"]
 
 [ext_resource type="PackedScene" uid="uid://dmmsf2ode0d05" path="res://Objects/Player.tscn" id="1_xpku2"]
-[ext_resource type="TileSet" uid="uid://cibqsmotpjli2" path="res://Tilesets/grass.tres" id="2_b2h8s"]
+[ext_resource type="TileSet" uid="uid://cibqsmotpjli2" path="res://grass.tres" id="2_b2h8s"]
 [ext_resource type="Script" path="res://Scripts/BlockPlacer.cs" id="5_o8g3w"]
 
 [node name="World" type="Node2D"]
