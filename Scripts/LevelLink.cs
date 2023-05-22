@@ -32,5 +32,6 @@ public partial class LevelLink : Area2D
 	public void SetTargetLevel(string target) {
 		this.target_level = target;
 	}
+	
 }
 

@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://Scripts/BlockPlacer.cs" id="5_o8g3w"]
 
 [node name="World" type="Node2D"]
+position = Vector2(3, 0)
 
 [node name="Tilemap" type="TileMap" parent="."]
 texture_filter = 1

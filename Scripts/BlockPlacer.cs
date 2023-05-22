@@ -49,35 +49,42 @@ public partial class BlockPlacer : Node2D
 
 	}
 
+	private void SaveLevel(string level_fname) {
+		// saves the level to tscn file as a scene
+		GD.Print(level_fname);
+		
+	}
+
 	private Vector2 BuildLevel(string target_fpath, int player_loc = -1) {
 		// Build a level from <target_fpath>
 		GD.Print($"Opening File {target_fpath}");
 		
 		Dictionary<int, string> level_dict = new Dictionary<int, string>();
 
-		int i = 0; // row count
-		int line_count = 0;
+		int i = 0; // row count for level
+		int line_count = 0; // line count in file
 		Vector2 dims = new Vector2();
 		foreach(string line in File.ReadLines(target_fpath)) {
 			line_count++;
 			GD.Print($"{line.Length} {line}");
-			if(line.Length == 0) { continue; } // empty line
+			if(line.Length == 0) { continue; } // empty line -- skip
 			else if(line_count == 1) { // line contains level dimensions -- first line
 				// GD.Print($"room dimensions: {line[0]}x{line[2]}"); // DEBUG
-				dims = new Vector2(line[0], line[2]);
+				var dims_arr = line.Split(" ");
+				dims = new Vector2(dims_arr[0].ToFloat(), dims_arr[1].ToFloat());
 				continue;
 			}
 			else if(line[0] == '?') { // line containing links to other levels
 				int level_symbol = line.Substring(1, 1).ToInt();
-				string level_name = line.Substring(3);
+				string target_level_name = line.Substring(3);
 
-				level_dict[level_symbol] = level_name; // save filepath to dictionary
+				level_dict[level_symbol] = target_level_name; // save filepath to dictionary
 				continue;
 			}
 			
 			// not a config line, so loop through line and build level
 			string[] blocks = line.Split(" ");
-			int j = 0;
+			int j = 0; // col count for level
 			foreach(var block in blocks) {
 				// GD.Print($"Placing {block} Block"); // DEBUG
 				if(block == "B") {
@@ -111,6 +118,15 @@ public partial class BlockPlacer : Node2D
 			i++;
 		}
 
+		string os = System.Environment.OSVersion.ToString();
+		string level_name = "";
+		if(os.Substring(0, 4) == "Unix") {
+			level_name = target_fpath.Split("/")[^1];
+		}
+		else {
+			level_name = target_fpath.Split("\\")[^1];
+		}
+		SaveLevel(level_name);
 		return dims;
 	}
 }
