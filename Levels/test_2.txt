@@ -1,0 +1,9 @@
+5 5
+
+?1 test.txt
+
+B B B B B
+B - - - B
+B - - - B
+1 - C - B
+B B B B B
