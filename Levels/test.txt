@@ -1,7 +1,7 @@
 10 10
 
-?1 level_1.txt
-?2 level_2.txt
+?1 test_1.txt
+?2 test_2.txt
 
 B B B B B B B B B B
 B - - - B B - - - B

@@ -31,3 +31,5 @@ shape = SubResource("RectangleShape2D_a0rqi")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.05, 0.05)
 sprite_frames = SubResource("SpriteFrames_wpw70")
+
+[connection signal="body_entered" from="." to="." method="OnBodyEntered"]

@@ -42,4 +42,10 @@ public partial class LevelLoader : Node2D
             }
         }
     }
+
+    // public void SaveLevelToTSCN(string target_fname) {
+    //     // Saves Current Scene to <target_fname> (a .tscn file)
+    //     Node root_node = GetTree().Root;
+        
+    // }
 }

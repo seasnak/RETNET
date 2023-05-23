@@ -1,6 +1,6 @@
 4 4
 
-?1 level_1.txt
+?1 test_1.txt
 
 B B B B B
 B - - - B

@@ -21,11 +21,12 @@ public partial class LevelLink : Area2D
 		this.Position = position;
 	}
 
-	private void OnObjectEntered(Node body) {
+	private void OnBodyEntered(Node2D body) {
 
 		if(body is Player) {
 			GD.Print($"Collided With Player -- Loading Level: {target_level}");
 			// Load Level
+			
 		}
 	}
 

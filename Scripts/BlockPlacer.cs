@@ -49,19 +49,23 @@ public partial class BlockPlacer : Node2D
 
 	}
 
-	private void SaveLevel(string level_fname) {
-		// saves the level to tscn file as a scene
-		GD.Print(level_fname);
+	private void SaveLevelToTSCN(string level_fname) {
+		// saves the level scene to tscn file
+		GD.Print($"saving current level to {level_fname}.tscn");
 		
 	}
 
-	private Vector2 BuildLevel(string target_fpath, int player_loc = -1) {
-		// Build a level from <target_fpath>
+	private Vector2 BuildLevel(string target_fpath, int player_spawn_loc = -1) {
+		/*
+		Builds a level from <target_fpath> (.txt)
+		Places player at "P" block if player_spawn_loc == -1,
+			Else places player at target spawn location
+		*/
 		GD.Print($"Opening File {target_fpath}");
 		
 		Dictionary<int, string> level_dict = new Dictionary<int, string>();
 
-		int i = 0; // row count for level
+		int j = 0; // row count for level
 		int line_count = 0; // line count in file
 		Vector2 dims = new Vector2();
 		foreach(string line in File.ReadLines(target_fpath)) {
@@ -84,40 +88,58 @@ public partial class BlockPlacer : Node2D
 			
 			// not a config line, so loop through line and build level
 			string[] blocks = line.Split(" ");
-			int j = 0; // col count for level
+			int i = 0; // col count for level
 			foreach(var block in blocks) {
 				// GD.Print($"Placing {block} Block"); // DEBUG
 				if(block == "B") {
-					tilemap.SetCellsTerrainConnect(0, new Godot.Collections.Array<Vector2I> {new Vector2I(j, i)}, 0, 0);
+					tilemap.SetCellsTerrainConnect(0, new Godot.Collections.Array<Vector2I> {new Vector2I(i, j)}, 0, 0);
 				}
-				else if(block == "P") {
-					GD.Print($"Placing Player at position ({j}, {i})");
-					player.SetPosition(new Vector2(j*t2w_scale + t2w_offset, i*t2w_scale + t2w_offset));
-				}
-				else if(block == "C") {
-					GD.Print($"Placing Coin at position ({j}, {i})");
-					PackedScene coin_obj = ResourceLoader.Load<PackedScene>("res://Objects/Coin.tscn");
-					Coin coin_inst = coin_obj.Instantiate() as Coin;
-					coin_inst.SetPosition(new Vector2(j*t2w_scale + t2w_offset, i*t2w_scale + t2w_offset));
-
-					this.AddChild(coin_inst);
-				}
-				else if(block.IsValidInt()) { // place a level link to target level
-					GD.Print($"Placing Level Link at position ({j}, {i})");
-					PackedScene level_link_obj = ResourceLoader.Load<PackedScene>("res://Objects/LevelLink.tscn");
-					LevelLink level_link_inst = level_link_obj.Instantiate() as LevelLink;
+				else { // Place non-tilemap object
+					Vector2 obj_pos = new Vector2(i*t2w_scale + t2w_offset, j*t2w_scale + t2w_offset);
 					
-					level_link_inst.SetPosition(new Vector2(j*t2w_scale + t2w_offset, i*t2w_scale + t2w_offset));
-					GD.Print($"Setting target level to {level_dict[block.ToInt()]}");
-					level_link_inst.SetTargetLevel(level_dict[block.ToInt()]);
+					if(block == "P" && player_spawn_loc == -1) {
+						GD.Print($"Placing Player at position ({j}, {i})");
+						player.SetPosition(obj_pos);
+					}
+					else if(block == "C") {
+						GD.Print($"Placing Coin at position ({j}, {i})");
+						PackedScene coin_obj = ResourceLoader.Load<PackedScene>("res://Objects/Coin.tscn");
+						Coin coin_inst = coin_obj.Instantiate() as Coin;
+						coin_inst.SetPosition(obj_pos);
 
-					this.AddChild(level_link_inst);
+						this.AddChild(coin_inst);
+					}
+					else if(block.IsValidInt()) { // place a level link to target level
+						GD.Print($"Placing Level Link at position ({i}, {j})");
+						PackedScene level_link_obj = ResourceLoader.Load<PackedScene>("res://Objects/LevelLink.tscn");
+						LevelLink level_link_inst = level_link_obj.Instantiate() as LevelLink;
+						
+						// want to place the level link slightly off of the level so the player has to "walk into it"
+						if(i == 0) {
+							obj_pos += new Vector2(-6, 0);
+						}
+						else if(i == dims[0]-1) {
+							obj_pos += new Vector2(6, 0);
+						}
+						else if(j == 0) {
+							obj_pos += new Vector2(0, 6);
+						}
+						else if(j == dims[1]-1) {
+							obj_pos += new Vector2(0, -6);
+						}
+						level_link_inst.SetPosition(obj_pos);
+						GD.Print($"Setting target level to {level_dict[block.ToInt()]}");
+						level_link_inst.SetTargetLevel(level_dict[block.ToInt()]);
+
+						this.AddChild(level_link_inst);
+					}
 				}
-				j++;
+				i++;
 			}
-			i++;
+			j++;
 		}
 
+		// Save Level to tscn file for quick loading
 		string os = System.Environment.OSVersion.ToString();
 		string level_name = "";
 		if(os.Substring(0, 4) == "Unix") {
@@ -126,7 +148,7 @@ public partial class BlockPlacer : Node2D
 		else {
 			level_name = target_fpath.Split("\\")[^1];
 		}
-		SaveLevel(level_name);
+		SaveLevelToTSCN(level_name);
 		return dims;
 	}
 }
