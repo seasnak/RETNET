@@ -4,6 +4,7 @@ S SPIKE
 E ENEMY
 C COIN
 P SPAWN_POINT ( where the player spawns ) -- only found in the starting room
+X RESET_POINT ( where the player will reset to )
 [0-9] ENTRANCE/EXIT
 
 SAMPLE LEVEL

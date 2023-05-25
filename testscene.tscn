@@ -1,15 +1,11 @@
 [gd_scene load_steps=3 format=3 uid="uid://bh0322h74w8yk"]
 
-[ext_resource type="TileSet" uid="uid://cibqsmotpjli2" path="res://grass.tres" id="2_b2h8s"]
-[ext_resource type="Script" path="res://Scripts/BlockPlacer.cs" id="5_o8g3w"]
+[ext_resource type="PackedScene" uid="uid://yb22glg020tm" path="res://Objects/tilemap.tscn" id="1_8qguu"]
+[ext_resource type="PackedScene" uid="uid://c866rpnclccie" path="res://Objects/block_placer.tscn" id="2_ped2y"]
 
 [node name="World" type="Node2D"]
 position = Vector2(3, 0)
 
-[node name="Tilemap" type="TileMap" parent="."]
-texture_filter = 1
-tile_set = ExtResource("2_b2h8s")
-format = 2
+[node name="Tilemap" parent="." instance=ExtResource("1_8qguu")]
 
-[node name="BlockPlacer" type="Node2D" parent="."]
-script = ExtResource("5_o8g3w")
+[node name="BlockPlacer" parent="." instance=ExtResource("2_ped2y")]

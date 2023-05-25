@@ -21,19 +21,22 @@ public partial class BlockPlacer : Node2D
 	private float t2w_offset = 4f;
 
 	public override void _Ready()
-	{
+	{	
+		// instantiate tilemap
 		tilemap = GetNode(tilemap_path) as TileMap;
 
 		// instantiate player
 		// player = GetNode(player_path) as Player;
-		PackedScene player_scene = ResourceLoader.Load<PackedScene>("res://Objects/Player.tscn");
+		PackedScene player_scene = ResourceLoader.Load<PackedScene>("res://Objects/player.tscn");
 		player = player_scene.Instantiate() as Player;
 		
+		// instantiate camera
 		Camera2D player_camera = new Camera2D();
 		player_camera.Zoom = new Vector2(5f, 5f);
 		player.AddChild(player_camera);
 		this.AddChild(player);
 
+		// build level
 		string os = System.Environment.OSVersion.ToString();
 		if(os.Substring(0, 4) == "Unix") {
 			BuildLevel($"Levels/{start_lvl}");
@@ -101,9 +104,13 @@ public partial class BlockPlacer : Node2D
 						GD.Print($"Placing Player at position ({j}, {i})");
 						player.SetPosition(obj_pos);
 					}
+					else if(player_spawn_loc != -1) {
+						GD.Print($"Placing Player at {player_spawn_loc}");
+						
+					}
 					else if(block == "C") {
 						GD.Print($"Placing Coin at position ({j}, {i})");
-						PackedScene coin_obj = ResourceLoader.Load<PackedScene>("res://Objects/Coin.tscn");
+						PackedScene coin_obj = ResourceLoader.Load<PackedScene>("res://Objects/coin.tscn");
 						Coin coin_inst = coin_obj.Instantiate() as Coin;
 						coin_inst.SetPosition(obj_pos);
 
@@ -111,7 +118,7 @@ public partial class BlockPlacer : Node2D
 					}
 					else if(block.IsValidInt()) { // place a level link to target level
 						GD.Print($"Placing Level Link at position ({i}, {j})");
-						PackedScene level_link_obj = ResourceLoader.Load<PackedScene>("res://Objects/LevelLink.tscn");
+						PackedScene level_link_obj = ResourceLoader.Load<PackedScene>("res://Objects/level_link.tscn");
 						LevelLink level_link_inst = level_link_obj.Instantiate() as LevelLink;
 						
 						// want to place the level link slightly off of the level so the player has to "walk into it"

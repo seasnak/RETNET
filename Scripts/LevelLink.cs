@@ -14,7 +14,7 @@ public partial class LevelLink : Area2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-
+		
 	}
 
 	public void SetPosition(Vector2 position) {
@@ -26,7 +26,7 @@ public partial class LevelLink : Area2D
 		if(body is Player) {
 			GD.Print($"Collided With Player -- Loading Level: {target_level}");
 			// Load Level
-			
+			PackedScene target_scene = GD.Load<PackedScene>(target_level);
 		}
 	}
 

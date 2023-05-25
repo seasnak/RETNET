@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://yb22glg020tm"]
+
+[ext_resource type="TileSet" uid="uid://cibqsmotpjli2" path="res://grass.tres" id="1_awc1a"]
+
+[node name="Tilemap" type="TileMap"]
+texture_filter = 1
+tile_set = ExtResource("1_awc1a")
+format = 2

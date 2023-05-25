@@ -15,8 +15,12 @@ public partial class CameraController : Camera2D
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
-	{
-		this.Position = player.Position;
+	{	
+		if(this.Position != player.Position) {
+			Vector2 move_pos = new Vector2(player.Position[0], 0);
+
+			this.Position = move_pos;
+		}
 	}
 
 	public void set_player(Player p) {

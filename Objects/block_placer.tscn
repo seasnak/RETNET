@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://c866rpnclccie"]
+
+[ext_resource type="Script" path="res://Scripts/BlockPlacer.cs" id="1_eb8o5"]
+
+[node name="BlockPlacer" type="Node2D"]
+script = ExtResource("1_eb8o5")
