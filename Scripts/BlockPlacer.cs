@@ -12,13 +12,14 @@ public partial class BlockPlacer : Node2D
 	private TileMap tilemap;
 	private Player player;
 	private string tilemap_path = "/root/World/Tilemap";
-	private string player_path = "/root/World/Player";
 
 	private string start_lvl = "test.txt";
 
  	// tilemap to world coordinates scale
 	private float t2w_scale = 8f;
 	private float t2w_offset = 4f;
+
+	private bool is_unix = false;
 
 	public override void _Ready()
 	{	
@@ -37,13 +38,9 @@ public partial class BlockPlacer : Node2D
 		this.AddChild(player);
 
 		// build level
-		string os = System.Environment.OSVersion.ToString();
-		if(os.Substring(0, 4) == "Unix") {
-			BuildLevel($"Levels/{start_lvl}");
-		}
-		else {
-			BuildLevel($"Levels\\{start_lvl}");
-		}
+		// os = System.Environment.OSVersion.ToString();
+		is_unix = System.Environment.OSVersion.ToString().Substring(0, 4) == "Unix";
+		// BuildLevel(start_lvl);
 		// BuildLevel($"res://Levels/{start_lvl}"); // This doesn't work because file path needs to be absolute -- this is a Godot file path
 	}
 
@@ -58,12 +55,19 @@ public partial class BlockPlacer : Node2D
 		
 	}
 
-	private Vector2 BuildLevel(string target_fpath, int player_spawn_loc = -1) {
+	public Vector2 BuildLevel(string target_level_name, int player_spawn_loc = -1) {
 		/*
 		Builds a level from <target_fpath> (.txt)
 		Places player at "P" block if player_spawn_loc == -1,
 			Else places player at target spawn location
 		*/
+		string target_fpath = "";
+		if(is_unix) {
+			target_fpath = $"Levels/{target_level_name}";
+		}
+		else {
+			target_fpath = $"Levels\\{target_level_name}";
+		}
 		GD.Print($"Opening File {target_fpath}");
 		
 		Dictionary<int, string> level_dict = new Dictionary<int, string>();
@@ -147,15 +151,7 @@ public partial class BlockPlacer : Node2D
 		}
 
 		// Save Level to tscn file for quick loading
-		string os = System.Environment.OSVersion.ToString();
-		string level_name = "";
-		if(os.Substring(0, 4) == "Unix") {
-			level_name = target_fpath.Split("/")[^1];
-		}
-		else {
-			level_name = target_fpath.Split("\\")[^1];
-		}
-		SaveLevelToTSCN(level_name);
+		SaveLevelToTSCN(target_level_name);
 		return dims;
 	}
 }

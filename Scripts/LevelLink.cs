@@ -3,17 +3,15 @@ using System;
 
 public partial class LevelLink : Area2D
 {
-	private string target_level = "res://Levels/test.txt"; // set default level to test.txt
+	private string target_level = "test.txt"; // set default level to test.txt
 	// Called when the node enters the scene tree for the first time.
 	
-	public override void _Ready()
-	{
+	public override void _Ready() {
 		
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
+	public override void _Process(double delta) {
 		
 	}
 
@@ -26,7 +24,13 @@ public partial class LevelLink : Area2D
 		if(body is Player) {
 			GD.Print($"Collided With Player -- Loading Level: {target_level}");
 			// Load Level
-			PackedScene target_scene = GD.Load<PackedScene>(target_level);
+
+			// PackedScene target_scene = GD.Load<PackedScene>(target_level);
+
+			// TemplateScene ts = new TemplateScene();
+			GetTree().ChangeSceneToFile("res://Scenes/template.tscn");
+			BlockPlacer bp = GetNode<BlockPlacer>("/root/World/BlockPlacer");
+			bp.BuildLevel($"{target_level}");
 		}
 	}
 

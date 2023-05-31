@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://47l0bj8yaetw"]
+
+[ext_resource type="PackedScene" uid="uid://yb22glg020tm" path="res://Objects/tilemap.tscn" id="1_46u2h"]
+[ext_resource type="PackedScene" uid="uid://c866rpnclccie" path="res://Objects/block_placer.tscn" id="2_u540i"]
+
+[node name="World" type="Node2D"]
+position = Vector2(3, 0)
+
+[node name="Tilemap" parent="." instance=ExtResource("1_46u2h")]
+
+[node name="BlockPlacer" parent="." instance=ExtResource("2_u540i")]
