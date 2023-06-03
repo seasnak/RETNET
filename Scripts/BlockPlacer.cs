@@ -9,17 +9,19 @@ using System.Collections.Generic;
 public partial class BlockPlacer : Node2D 
 {
 
+	public static Dictionary<int, string> level_dict;
+
 	private TileMap tilemap;
 	private Player player;
 	private string tilemap_path = "/root/World/Tilemap";
 
-	private string start_lvl = "test.txt";
+	private string start_lvl = "test_1.txt";
 
  	// tilemap to world coordinates scale
 	private float t2w_scale = 8f;
 	private float t2w_offset = 4f;
 
-	private bool is_unix = false;
+	private static bool is_unix = true;
 
 	public override void _Ready()
 	{	
@@ -30,17 +32,21 @@ public partial class BlockPlacer : Node2D
 		// player = GetNode(player_path) as Player;
 		PackedScene player_scene = ResourceLoader.Load<PackedScene>("res://Objects/player.tscn");
 		player = player_scene.Instantiate() as Player;
-		
-		// instantiate camera
-		Camera2D player_camera = new Camera2D();
-		player_camera.Zoom = new Vector2(5f, 5f);
-		player.AddChild(player_camera);
+		InstantiateCamera(player);
+		GD.Print(this.GetParent().Name);
 		this.AddChild(player);
+		// GetTree().Root.GetNode("World").AddChild(player);
 
 		// build level
 		// os = System.Environment.OSVersion.ToString();
 		is_unix = System.Environment.OSVersion.ToString().Substring(0, 4) == "Unix";
-		// BuildLevel(start_lvl);
+		GD.Print($"is_new_player set to {PlayerVariables.is_new_player}");
+		if(PlayerVariables.is_new_player) {
+			BuildLevel(start_lvl);
+			// Save Level to tscn file for quick loading
+			SaveLevelToTSCN(start_lvl.Substring(0, start_lvl.Length-4));
+			PlayerVariables.is_new_player = false;
+		}
 		// BuildLevel($"res://Levels/{start_lvl}"); // This doesn't work because file path needs to be absolute -- this is a Godot file path
 	}
 
@@ -49,10 +55,26 @@ public partial class BlockPlacer : Node2D
 
 	}
 
-	private void SaveLevelToTSCN(string level_fname) {
+	private void CleanScenes() { // TODO
+		// DEBUG Function used to clear all scenes from Scenes folder
+
+	}
+
+	public void SaveLevelToTSCN(string level_name) {
 		// saves the level scene to tscn file
-		GD.Print($"saving current level to {level_fname}.tscn");
+		GD.Print($"saving current level to {level_name}.tscn");
 		
+		PackedScene packed_scene = new PackedScene();
+		// foreach(var child in GetTree().CurrentScene.GetChildren()) GD.Print(child.Owner);
+		packed_scene.Pack(GetTree().CurrentScene);
+		// ResourceSaver.Save(packed_scene, $"Scenes/{level_name}.tscn");
+
+	}
+
+	public void InstantiateCamera(Player player) {
+		Camera2D player_camera = new Camera2D();
+		player_camera.Zoom = new Vector2(5f, 5f);
+		player.AddChild(player_camera);
 	}
 
 	public Vector2 BuildLevel(string target_level_name, int player_spawn_loc = -1) {
@@ -61,6 +83,10 @@ public partial class BlockPlacer : Node2D
 		Places player at "P" block if player_spawn_loc == -1,
 			Else places player at target spawn location
 		*/
+		
+		// clear the level
+		tilemap.Clear();
+
 		string target_fpath = "";
 		if(is_unix) {
 			target_fpath = $"Levels/{target_level_name}";
@@ -70,14 +96,14 @@ public partial class BlockPlacer : Node2D
 		}
 		GD.Print($"Opening File {target_fpath}");
 		
-		Dictionary<int, string> level_dict = new Dictionary<int, string>();
+		level_dict = new Dictionary<int, string>();
 
 		int j = 0; // row count for level
 		int line_count = 0; // line count in file
 		Vector2 dims = new Vector2();
 		foreach(string line in File.ReadLines(target_fpath)) {
 			line_count++;
-			GD.Print($"{line.Length} {line}");
+			GD.Print($"{line}");
 			if(line.Length == 0) { continue; } // empty line -- skip
 			else if(line_count == 1) { // line contains level dimensions -- first line
 				// GD.Print($"room dimensions: {line[0]}x{line[2]}"); // DEBUG
@@ -87,9 +113,9 @@ public partial class BlockPlacer : Node2D
 			}
 			else if(line[0] == '?') { // line containing links to other levels
 				int level_symbol = line.Substring(1, 1).ToInt();
-				string target_level_name = line.Substring(3);
+				string target_adj_level = line.Substring(3);
 
-				level_dict[level_symbol] = target_level_name; // save filepath to dictionary
+				level_dict[level_symbol] = target_adj_level; // save filepath to dictionary
 				continue;
 			}
 			
@@ -141,7 +167,10 @@ public partial class BlockPlacer : Node2D
 						level_link_inst.SetPosition(obj_pos);
 						GD.Print($"Setting target level to {level_dict[block.ToInt()]}");
 						level_link_inst.SetTargetLevel(level_dict[block.ToInt()]);
-
+						
+						string tmp_name = level_dict[block.ToInt()];
+						level_link_inst.Name = tmp_name.Substring(0, tmp_name.Length-4);
+						
 						this.AddChild(level_link_inst);
 					}
 				}
@@ -150,8 +179,6 @@ public partial class BlockPlacer : Node2D
 			j++;
 		}
 
-		// Save Level to tscn file for quick loading
-		SaveLevelToTSCN(target_level_name);
 		return dims;
 	}
 }

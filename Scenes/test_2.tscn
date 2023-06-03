@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="PackedScene" path="res://Objects/tilemap.tscn" id="1_w4yva"]
+[ext_resource type="TileSet" path="res://grass.tres" id="2_mnunw"]
+[ext_resource type="PackedScene" path="res://Objects/block_placer.tscn" id="3_2niat"]
+[ext_resource type="Script" path="res://Scripts/BlockPlacer.cs" id="4_bi615"]
+
+[node name="World" type="Node2D"]
+position = Vector2(3, 0)
+
+[node name="Tilemap" type="TileMap" parent="." instance=ExtResource("1_w4yva")]
+texture_filter = 1
+tile_set = ExtResource("2_mnunw")
+format = 2
+layer_0/tile_data = PackedInt32Array(0, 196608, 1, 1, 262144, 3, 2, 262144, 3, 3, 262144, 1, 4, 327680, 1, 65536, 196608, 2, 65540, 196608, 2, 131072, 65536, 3, 131076, 196608, 2, 196612, 327680, 2, 262144, 196608, 5, 262145, 262144, 5, 262146, 262144, 3, 262147, 262144, 1, 262148, 327680, 3)
+
+[node name="BlockPlacer" type="Node2D" parent="." instance=ExtResource("3_2niat")]
+script = ExtResource("4_bi615")
+
+[connection signal="body_entered" from="BlockPlacer/Coin" to="BlockPlacer/Coin" method="OnBodyEntered" flags=18]
+[connection signal="body_entered" from="BlockPlacer/test_1txt" to="BlockPlacer/test_1txt" method="OnBodyEntered" flags=18]
+[connection signal="body_entered" from="BlockPlacer/@Coin@3" to="BlockPlacer/@Coin@3" method="OnBodyEntered" flags=18]
+[connection signal="body_entered" from="BlockPlacer/test_2txt" to="BlockPlacer/test_2txt" method="OnBodyEntered" flags=18]
+[connection signal="body_entered" from="BlockPlacer/testtxt" to="BlockPlacer/testtxt" method="OnBodyEntered" flags=18]
+[connection signal="body_entered" from="BlockPlacer/@Coin@4" to="BlockPlacer/@Coin@4" method="OnBodyEntered" flags=18]
